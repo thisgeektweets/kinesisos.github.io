@@ -12,18 +12,16 @@ permalink: /instructions/
 4. An Internet connection if additional files are going to be downloaded
    during the setup.
 
-> ##### Note: It is recommended to go through the k_os setup as the root user.
+> ##### Note: It is recommended to go through the Kinesis OS setup as the root user.
 
 ---
 
 ### Extracting
 
-First off, create an ext4 partition on the disk you'll be using 
-Kinesis OS on using your preferred tool such as [GParted](https://gparted.org/) 
-or [Fdisk](https://wiki.archlinux.org/index.php/Fdisk). If you would like
-to reuse an existing partition for k_os, the following commands can be issued
-directly from a Unix/Linux terminal. Next, mount the partition you'll be using
-at `/mnt/` or at any other mount point you like.
+First off, create an ext4 partition on the disk where Kinesis OS will be installed 
+on using a tool such as [GParted](https://gparted.org/)  or [Fdisk](https://wiki.archlinux.org/index.php/Fdisk). 
+If an existing partition will be used for Kinesis OS, the following commands can be issued directly from a 
+Unix/Linux shell. Next, mount the partition to be used at `/mnt/` or at any other mount point desired.
 
 {% highlight bash %}
 lsblk
@@ -31,18 +29,18 @@ mkfs.ext4 /dev/sdXn
 mount /dev/sdXn /mnt/
 {% endhighlight %}
 
-You can also make use of a swap partition if desired.
+A swap partition can also be made use of if desired.
 
 {% highlight bash %}
 mkswap /dev/sdXn
 swapon /dev/sdXn
 {% endhighlight %}
 
-Continuing with the k_os setup, download and extract the 
+Going on with the Kinesis OS setup, download and extract the 
 [source files for Kinesis OS](https://download1506.mediafire.com/fr228ct7tzyg/yhyhrli8vrirbmo/k_os-source-files.tar.xz) 
 to the ext4 partition that is going to be used. Another way to do this could be by issuing the following commands. 
 
-> ##### Replace any instance of `/mnt/` by your custom mount point if you are using one onwards.
+> ##### Replace any instance of `'/mnt/'` in the instructions by a custom mount point if one is being used onwards.
 
 {% highlight bash %}
 cd /mnt/
@@ -53,10 +51,10 @@ rm k_os-source-files.tar.xz
 
 For the next steps, it is recommended to install the 
 [arch install scripts](https://www.archlinux.org/packages/extra/any/arch-install-scripts/)
-package for your current platform although you can do everything manually. 
+package for the current platform being used although everything can be done manually. 
 
-Finally, just create using the `fstab` file which will hold information about the
-mount point of disk partition(s) that k_os will be using. If the
+Finally, just create the `fstab` file which will hold information about the
+mount point of disk partition(s) that Kinesis OS will be using. If the
 [arch install scripts](https://www.archlinux.org/packages/extra/any/arch-install-scripts/)
 package has been installed, just run the following command.
 
@@ -64,9 +62,9 @@ package has been installed, just run the following command.
 genfstab -U /mnt/ >> /mnt/etc/fstab
 {% endhighlight %}
 
-Else, edit the `fstab` file at `/mnt/etc/fstab` using your favourite tool. For this example,
-we will be assuming that our `/` partition (the ext4 one) is at `/dev/sda2` and our `swap`
-partition, at `/dev/sda3`. **Replace these by your own actual partitions that you will be using.**
+Else, edit the `fstab` file at `/mnt/etc/fstab` manually. For this example,
+it will be assumed that the `/` partition (the ext4 one) is at `/dev/sda2` and the `swap`
+partition, at `/dev/sda3`. **Replace these by the actual partitions that will be used.**
 
 {% highlight bash %}
 cat > /mnt/etc/fstab << "EOF"
@@ -80,8 +78,8 @@ EOF
 
 ### Chroot-ing
 
-In this part, you are going to change root to the newly created Kinesis OS `/` partition in order
-to complete all the necessary initial configuration and preparation for the final system.
+In this section, root will be changed to the newly created Kinesis OS `/` partition in order
+to complete all the necessary initial configurations and preparations for the final system.
 
 If the
 [arch install scripts](https://www.archlinux.org/packages/extra/any/arch-install-scripts/)
@@ -91,7 +89,7 @@ package has been installed, just issue this one line command.
 arch-chroot /mnt/
 {% endhighlight %}
 
-Else, execute the following commands if you are going with a more classical approach.
+Else, execute the following commands if a more classical approach is being taken.
 
 {% highlight bash %}
 cd /mnt/
@@ -107,16 +105,16 @@ chroot /mnt/ /bin/bash
 ### Custom initial configurations (Optional)
 
 To set a timezone and update the hardware clock of the new system, use the following commands
-while updating `<Region>` and `<Country>` with your own values.
+while updating `<Region>` and `<Country>` with specific values.
 
 {% highlight bash %}
 ln -sf /usr/share/zoneinfo/<Region>/<Country> /etc/localtime
 hwclock --systohc
 {% endhighlight %}
 
-For using particular language(s) in your new operating system, lines corresponding to the
-language(s) you need must be uncommented and generated. Additionally, the `/etc/locale.conf` 
-file needs to be edited to correspond to the main language that you'll be using. By default,
+For using particular language(s) in the new Kinesis OS install, lines corresponding to the
+language(s) needed must be uncommented and generated. Additionally, the `/etc/locale.conf` 
+file needs to be edited to correspond to the main language that will be used. By default,
 Kinesis OS comes with the `en_US.UTF-8 UTF-8` locale.
 
 {% highlight bash %}
@@ -125,7 +123,7 @@ locale.gen
 nano /etc/locale.conf
 {% endhighlight %}
 
-If a custom hostname is desired for your machine, any instance of `'k_os'` needs to be replaced
+If a custom hostname is desired for the machine, any instance of `'k_os'` needs to be replaced
 by that hostname in the `/etc/hostname` and `/etc/hosts` files.
 
 {% highlight bash %}
@@ -133,8 +131,8 @@ nano /etc/hostname
 nano /etc/hosts
 {% endhighlight %}
 
-Finally, packages can be made sure to be up-to-date by running these commands. If you won't
-be using a wireless internet connection, omit the first command.
+Finally, packages can be made sure to be up-to-date by running these commands. If
+a wireless internet connection won't be used, omit the first command.
 
 {% highlight bash %}
 wifi-menu
@@ -152,15 +150,15 @@ passwd
 {% endhighlight %}
 
 Additionally, a new user can be created and a password can be set. As the ``sudo``
-package is going to be installed alongside, make sure that you have an active 
-internet connection. Refer to the last part of the previous section if you will be
-using a wireless internet connection.
+package is going to be installed alongside, make sure that an active internet connection
+is available. Refer to the last part of the previous section if a wireless internet 
+connection is going to be used.
 
 {% highlight bash %}
 k_addUser <UserName>
 {% endhighlight %}
 
-If you want WiFi support out of the box after installing Kinesis OS, run the following.
+If WiFi support out of the box is desired after installing Kinesis OS, execute the following command.
 
 {% highlight bash %}
 k_wifi
@@ -172,9 +170,9 @@ k_wifi
 
 This section can be skipped if Kinesis OS will be used as a terminal-based operating system.
 
-> If you will be installing multiple desktop environments, **issue the following command just
+> If multiple desktop environments will be installed, **issue the following command just
 before the last desired desktop environment is installed.** Failure to do so might result
-in conflicts between display managers being used by the different desktop environments installed.
+in conflicts between display managers used by the different desktop environments installed.
 
 {% highlight bash %}
 k_disable_dm
@@ -231,10 +229,9 @@ k_install_lxqt
 
 ### Installing a bootloader (GRUB)
 
-A bootloader will allow us to boot in this Kinesis OS install.
-[GRUB](https://en.wikipedia.org/wiki/GNU_GRUB) is the preffered and recommended
-choice due to its many benefits. A command similar to the format given below
-needs to be issued.
+A bootloader will allow booting Kinesis OS. [GRUB](https://en.wikipedia.org/wiki/GNU_GRUB) 
+is the preffered and recommended choice due to its many benefits. A command similar to 
+the format given below needs to be issued.
 
 {% highlight bash %}
 k_grub [y/n] /dev/sdX [n]
@@ -251,15 +248,15 @@ If the system is not an UEFI one and the target disk is `/dev/sda`, the followin
 k_grub n /dev/sda
 {% endhighlight %}
 
-If the system is an UEFI one and the EFI partition (usually the smallest one) is at
-`/dev/sda1`, the following command can be issued.
+If the system is an UEFI one and the EFI partition (usually the smallest one) corresponds
+to `/dev/sda1`, the following command can be issued.
 
 {% highlight bash %}
 k_grub y /dev/sda 1
 {% endhighlight %}
 
-If your setup of Kinesis OS is over, you can leave the Chroot environment and boot to this
-fresh new install of Kinesis OS!
+If the setup of Kinesis OS is over,the Chroot environment can be left and this
+fresh new install of Kinesis OS can be booted!
 
 {% highlight bash %}
 exit
